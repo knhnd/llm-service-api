@@ -13,7 +13,7 @@
 
 ## Links
 
-- OpenAI
-- Gemini
+- [OpenAI API](https://platform.openai.com/docs/overview)
+- [Google AI for Developers (Gemini)](https://ai.google.dev/)
 
 ---
