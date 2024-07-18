@@ -1,66 +1,79 @@
 # LLM Service API
 
-大規模言語モデルのサービスを安全に利用するための Web API
+`ChatGPT` や `Gemini` など大規模言語モデルに関連するサービスの API を実行するための Web API
 
-## About
+- `Secret Manager` を利用した安全なアクセス制御
+- `Python` の Web Framework である [FastAPI](https://fastapi.tiangolo.com/ja/) を用いて実装
 
-`ChatGPT` や `Gemini` など大規模言語モデルに関連するアプリケーションの API を安全に実行するための Web API．
-`Secret Manager` などを利用してキー情報を守るため LLM サービスへのアクセスには Webhook でこの Web API を経由する．
+## Server
 
-## 実装
+### Local
 
-`Python` の Web Framework である [FastAPI](https://fastapi.tiangolo.com/ja/) を用いて実装．
+- `main.py` のある階層（`src/`）で `uvicorn main:app --reload`
 
-### Local Server
+### Docker
 
-- `main.py` のある階層で `uvicorn main:app --reload`
+プロジェクトルートに `Dockerfile`, `docker-compose.yml`, `dockerignore`, `requirements.txt` を作成
 
-## Google Cloud
+- `docker-compose build`
+- `docker-compose up -d`
+- `docker-compose stop`
 
-- [コンソール](https://console.cloud.google.com/welcome?_ga=2.238480646.-726073305.1718693528&hl=ja&authuser=1&project=llm-api-429208)
+### Deploy
 
-### Deploy: Cloud Run
+[Cloud Run](https://cloud.google.com/run?hl=ja) にデプロイ
 
-
-### Secret Manager
-
-- [サービスアカウント](https://console.cloud.google.com/iam-admin/serviceaccounts?referrer=search&authuser=1&hl=ja&project=llm-api-429208)
-- [シークレットマネージャ](https://console.cloud.google.com/security/secret-manager/secret/chatgpt-admin/versions?authuser=1&hl=ja&project=llm-api-429208)
-
-#### Usage
-
-`.env` に Secret Manager に登録した `Secret` の情報を記載し、`service_account_key.json`　で指定したサービスアカウントで Secret Manager からキーを取得
-
-- Google Cloud にアクセス
-- サービスアカウントを作成
-    - `service_account_key.json` をダウンロード
-        - プロジェクトルートに設置
-        - `.gitignore` に追記
-- 各種サービスで `API_KEY` を発行（今回は ChatGPT）
-- `API_KEY` を Secret Manager に登録
-- ローカルに `.env` を作成し、Secret の `PROJECT_ID`、`SECRET_ID`、`VERSION` を記載
-    - `.gitignore` に追記
-- `service_account_key.json` を利用して Secret Manager から API キーを取得
-    - コードを実行して API キーが取得できればOK
+- セットアップ
+    - `gcloud components update` で `gcloud CLI` をアップデート
+    - `gcloud auth login` (ログインしていなければ)
+    - `gcloud config set project PROJECT_ID`
+        - `PROJECT_ID` は [Google Cloud]((https://cloud.google.com/?hl=ja)) のプロジェクトダッシュボードから確認
+- デプロイの実行
+    - `gcloud run deploy`
+        - 質問項目はすべてそのまま Enter or Yes で問題ない
+        - リージョンは `[2] asia-east1`
+        - コンテナのビルドとデプロイが完了し `URL` が払い出されれば OK
 
 ## LLM Services
 
-### ChatGPT
+### [OpenAI](https://platform.openai.com/docs/overview)
 
-- [OpenAI Dashboard](https://platform.openai.com/playground/chat?models=gpt-4o)
+- `API Key` の作成
+    - 任意の権限を設定
+    - `API Key` の文字列は作成時に一度しか確認できないのですぐに Google の Secret Manager に登録
+    - 参考：[Best Practices for API Key Safety](https://help.openai.com/en/articles/5112595-best-practices-for-api-key-safety)
 
-#### API_KEY
+### [Gemini](https://gemini.google.com/)
 
-[Best Practices for API Key Safety](https://help.openai.com/en/articles/5112595-best-practices-for-api-key-safety) を参考にして利用
+未対応
 
-- `API_KEY` の文字列は作成時に一度表示されるだけで以降は表示できない
-    - 作成時にコピーして Google の Secret Manager に登録しておく 
 
-## Links
+## [Google Cloud](https://cloud.google.com/?hl=ja)
 
-- [OpenAI API](https://platform.openai.com/docs/overview)
-    - [OpenAI developer documentation](https://platform.openai.com/docs/overview)
-    - [Best Practices for API Key Safety](https://help.openai.com/en/articles/5112595-best-practices-for-api-key-safety)
-- [Google AI for Developers (Gemini)](https://ai.google.dev/)
+`API Key` は Google Cloud の Secret Manager で管理
+
+### [Secret Manager](https://cloud.google.com/secret-manager?hl=ja)
+
+- Secret Manager で `secret` を新規作成
+    - OpenAI の `API Key` を登録
+    - アプリの `src/` などに `.env` を作成
+    - `secret` の情報を記載
+        - `.gitignore` に追記
+
+### [Service Account](https://cloud.google.com/iam/docs/service-account-overview?hl=ja)
+
+- サービスアカウントを新規作成
+    - 権限を設定する
+    - ロールを `Secret Manager Secret Accessor` に設定
+    - `service_account_key.json` をダウンロード
+        - アプリの `src/` などに設置
+        - `.gitignore` に追記
+
+※ `.env` と `service_account_key.json` はデプロイ時には[Cloud Run の環境変数に設定](https://cloud.google.com/run/docs/configuring/environment-variables?hl=ja)
+
+## Reference
+
+- [CloudRun & Docker 入門](https://zenn.dev/kenken82/articles/cloudrun-docker-tutorial)
+- [OpenAI APIキーを安全に使用するためのベストプラクティス](https://note.com/komzweb/n/n3392c290d7b8)
 
 ---
