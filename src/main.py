@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from services.chatgpt import ChatGPT
+from .services.chatgpt import ChatGPT
 
 app = FastAPI()
 
@@ -17,10 +17,7 @@ app.add_middleware(
 async def read_root():
     return {"Hello": "World!"}
 
-@app.get("/items/{item_id}")
-async def read_item(item_id: int, q: str = None):
-    return {"item_id": item_id, "q": q}
-
 @app.get("/chatgpt/test/{text}")
 async def chatgpt_test(text: str):
-    return ChatGPT.test(text)
+    res = ChatGPT.test(text) 
+    return res.content
