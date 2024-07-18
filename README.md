@@ -69,11 +69,11 @@
         - アプリの `src/` などに設置
         - `.gitignore` に追記
 
-※ `.env` と `service_account_key.json` はデプロイ時には[Cloud Run の環境変数に設定](https://cloud.google.com/run/docs/configuring/environment-variables?hl=ja)
+### [Cloud Run でシークレットを使用](https://cloud.google.com/run/docs/configuring/secrets?hl=ja)
+
+- aaa
 
 ## Reference
 
 - [CloudRun & Docker 入門](https://zenn.dev/kenken82/articles/cloudrun-docker-tutorial)
 - [OpenAI APIキーを安全に使用するためのベストプラクティス](https://note.com/komzweb/n/n3392c290d7b8)
-
----
