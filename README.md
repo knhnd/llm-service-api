@@ -19,9 +19,9 @@
 - `docker-compose up -d`
 - `docker-compose stop`
 
-### Deploy
+## [Google Cloud](https://cloud.google.com/?hl=ja)
 
-[Cloud Run](https://cloud.google.com/run?hl=ja) にデプロイ
+### [Cloud Run](https://cloud.google.com/run?hl=ja) (Deploy)
 
 - セットアップ
     - `gcloud components update` で `gcloud CLI` をアップデート
@@ -33,6 +33,35 @@
         - 質問項目はすべてそのまま Enter or Yes で問題ない
         - リージョンは `[2] asia-east1`
         - コンテナのビルドとデプロイが完了し `URL` が払い出されれば OK
+
+`API Key` は Google Cloud の Secret Manager で管理
+
+### [Service Account](https://cloud.google.com/iam/docs/service-account-overview?hl=ja)
+
+- サービスアカウントを新規作成
+    - サービスアカウント名を設定
+    - ロールを `Secret Manager Secret Accessor` に設定
+    - ③ のサービスアカウント自体のアクセス制御はスキップして完了
+    - 鍵を追加 > 新しい鍵を作成 > `JSON`
+        - `JSON` ファイルが自動でダウンロードされるので厳重に保管
+
+### [Secret Manager](https://cloud.google.com/secret-manager?hl=ja)
+
+- シークレットの新規作成
+    - 作成したサービスアカウントの`JSON`ファイルをインポートするか内容をコピペ
+    - 他の設定はそのままで「シークレットを作成」で完了
+
+
+### [Cloud Run でシークレットを使用](https://cloud.google.com/run/docs/configuring/secrets?hl=ja)
+
+- CloudRun のコンソールを開く
+- 新しいリビジョンの編集とデプロイ
+    - 「セキュリティ」タブ
+        - サービスアカウントを作成したものに変更
+    - 「コンテナ」タブ > コンテナ > 変数とシークレット
+        - 「シークレットを参照」
+            - 環境変数名を設定
+            - 作成したシークレットを指定
 
 ## LLM Services
 
@@ -46,32 +75,6 @@
 ### [Gemini](https://gemini.google.com/)
 
 未対応
-
-
-## [Google Cloud](https://cloud.google.com/?hl=ja)
-
-`API Key` は Google Cloud の Secret Manager で管理
-
-### [Secret Manager](https://cloud.google.com/secret-manager?hl=ja)
-
-- Secret Manager で `secret` を新規作成
-    - OpenAI の `API Key` を登録
-    - アプリの `src/` などに `.env` を作成
-    - `secret` の情報を記載
-        - `.gitignore` に追記
-
-### [Service Account](https://cloud.google.com/iam/docs/service-account-overview?hl=ja)
-
-- サービスアカウントを新規作成
-    - 権限を設定する
-    - ロールを `Secret Manager Secret Accessor` に設定
-    - `service_account_key.json` をダウンロード
-        - アプリの `src/` などに設置
-        - `.gitignore` に追記
-
-### [Cloud Run でシークレットを使用](https://cloud.google.com/run/docs/configuring/secrets?hl=ja)
-
-- aaa
 
 ## Reference
 
