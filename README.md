@@ -34,9 +34,9 @@
 
 ## [Google Cloud](https://cloud.google.com/?hl=ja)
 
-### [Cloud Run](https://cloud.google.com/run?hl=ja) (Deploy)
-
 - [コンソール](https://console.cloud.google.com/run/detail/asia-east1/llm-service-api/metrics?authuser=1&project=llm-api-429208)
+
+### [Cloud Run](https://cloud.google.com/run?hl=ja) (Deploy)
 
 - セットアップ
     - `gcloud components update` で `gcloud CLI` をアップデート
