@@ -36,6 +36,8 @@
 
 ### [Cloud Run](https://cloud.google.com/run?hl=ja) (Deploy)
 
+- [コンソール](https://console.cloud.google.com/run/detail/asia-east1/llm-service-api/metrics?authuser=1&project=llm-api-429208)
+
 - セットアップ
     - `gcloud components update` で `gcloud CLI` をアップデート
     - `gcloud auth login` (ログインしていなければ)
