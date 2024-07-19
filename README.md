@@ -34,8 +34,6 @@
         - リージョンは `[2] asia-east1`
         - コンテナのビルドとデプロイが完了し `URL` が払い出されれば OK
 
-`API Key` は Google Cloud の Secret Manager で管理
-
 ### [Service Account](https://cloud.google.com/iam/docs/service-account-overview?hl=ja)
 
 - サービスアカウントを新規作成

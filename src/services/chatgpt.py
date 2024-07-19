@@ -2,12 +2,11 @@ from openai import OpenAI
 from .secret_manager import Secret_Manager
 
 class ChatGPT:
+    OPENAI_API_KEY = Secret_Manager.get_openai_api_key()
+    openai_client = OpenAI(api_key=OPENAI_API_KEY)
 
-    # ローカルでテスト
     def test(text):
-        OPENAI_API_KEY = Secret_Manager.get_openai_api_key()
-        openai_client = OpenAI(api_key=OPENAI_API_KEY)
-        res = openai_client.chat.completions.create(
+        res = ChatGPT.openai_client.chat.completions.create(
             model = 'gpt-3.5-turbo',
             messages = [
                 {'role': 'system', "content": "You are a Greeting Bot"},
