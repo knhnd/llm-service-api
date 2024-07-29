@@ -1,6 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
 from .services.chatgpt import ChatGPT
+from services.gemini import Gemini
+from services.claude import Claude
 
 app = FastAPI()
 
@@ -21,3 +24,13 @@ async def read_root():
 async def chatgpt_test(text: str):
     res = ChatGPT.test(text) 
     return res.content
+
+@app.get("/gemini/test/{text}")
+async def gemini_test(text: str):
+    res = Gemini.test(text)
+    return res
+
+@app.get("/claude/test/{text}")
+async def claude_test(text: str):
+    res = Claude.test(text)
+    return res

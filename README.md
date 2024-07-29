@@ -28,9 +28,11 @@
     - `API Key` の文字列は作成時に一度しか確認できないのですぐに Google の Secret Manager に登録
     - 参考：[Best Practices for API Key Safety](https://help.openai.com/en/articles/5112595-best-practices-for-api-key-safety)
 
-### [Gemini](https://gemini.google.com/)
+### [Gemini](https://ai.google.dev/aistudio?hl=ja)
 
-未対応
+- [スタートガイド](https://ai.google.dev/gemini-api/docs?hl=ja)
+
+### [Claude](https://docs.anthropic.com/ja/docs/quickstart-guide)
 
 ## [Google Cloud](https://cloud.google.com/?hl=ja)
 
@@ -66,6 +68,8 @@
     - 他の設定はそのままで「シークレットを作成」で完了
 
 ### [Cloud Run でシークレットを使用](https://cloud.google.com/run/docs/configuring/secrets?hl=ja)
+
+- [シークレットの取得](https://cloud.google.com/secret-manager/docs/samples/secretmanager-get-secret?hl=ja#secretmanager_get_secret-python)
 
 - CloudRun のコンソールを開く
 - 新しいリビジョンの編集とデプロイ
