@@ -30,6 +30,7 @@
 
 ### [Gemini](https://ai.google.dev/aistudio?hl=ja)
 
+- [Google AI Studio](https://aistudio.google.com/app/prompts/new_chat?pli=1) 
 - [スタートガイド](https://ai.google.dev/gemini-api/docs?hl=ja)
 
 ### [Claude](https://docs.anthropic.com/ja/docs/quickstart-guide)
