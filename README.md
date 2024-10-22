@@ -33,13 +33,13 @@
 - [Google AI Studio](https://aistudio.google.com/app/prompts/new_chat?pli=1) 
 - [スタートガイド](https://ai.google.dev/gemini-api/docs?hl=ja)
 
-### [Claude](https://docs.anthropic.com/ja/docs/quickstart-guide)
-
 ## [Google Cloud](https://cloud.google.com/?hl=ja)
 
 - [コンソール](https://console.cloud.google.com/run/detail/asia-east1/llm-service-api/metrics?authuser=1&project=llm-api-429208)
 
 ### [Cloud Run](https://cloud.google.com/run?hl=ja) (Deploy)
+
+Service URL: https://llm-service-api-pvkoedoarq-de.a.run.app/chatgpt/test/任意の文字列
 
 - セットアップ
     - `gcloud components update` で `gcloud CLI` をアップデート
