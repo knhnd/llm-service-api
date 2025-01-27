@@ -1,11 +1,10 @@
-from openai import OpenAI
-import secret_manager
+import openai
+from . import secret_manager
 
 def initialize_openai_client():
-    OPENAI_API_KEY = secret_manager.get_secret()
-    openai_client = OpenAI(api_key=OPENAI_API_KEY)
+    OPENAI_API_KEY = secret_manager.get_openai_secret()
+    openai_client = openai(api_key=OPENAI_API_KEY)
     return openai_client
-
 
 def test():
     chatgpt = initialize_openai_client()

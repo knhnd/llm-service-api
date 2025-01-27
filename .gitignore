@@ -1,4 +1,5 @@
 .env
+.vscode/
+.secret/
 .DS_Store
-.vsdcode/
 __pycache__/

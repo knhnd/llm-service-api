@@ -19,10 +19,10 @@ async def read_root():
 
 @app.get("/chatgpt")
 async def chatgpt_test():
-    res = chatgpt.test() 
+    res = chatgpt.test()
     return res.content
 
 @app.get("/chatgpt/chat/{text}")
 async def chatgpt_chat(text: str):
-    res = chatgpt.chat(text) 
+    res = chatgpt.chat(text)
     return res.content

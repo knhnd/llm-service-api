@@ -24,9 +24,9 @@
 ### [OpenAI](https://platform.openai.com/docs/overview)
 
 - `API Key` の作成
-    - 任意の権限を設定
-    - `API Key` の文字列は作成時に一度しか確認できないのですぐに Google の Secret Manager に登録
-    - 参考：[Best Practices for API Key Safety](https://help.openai.com/en/articles/5112595-best-practices-for-api-key-safety)
+  - 任意の権限を設定
+  - `API Key` の文字列は作成時に一度しか確認できないのですぐに Google の Secret Manager に登録
+  - 参考：[Best Practices for API Key Safety](https://help.openai.com/en/articles/5112595-best-practices-for-api-key-safety)
 
 ## Deploy
 
@@ -34,33 +34,44 @@
 
 コンテナ化して `Cloud Run` にデプロイする。
 
-- Service URL: https://llm-service-api-pvkoedoarq-de.a.run.app
-- セットアップ
-    - `gcloud components update` で `gcloud CLI` をアップデート
-    - `gcloud auth login` (ログインしていなければ)
-    - `gcloud config set project PROJECT_ID`
-        - `PROJECT_ID` は [Google Cloud]((https://cloud.google.com/?hl=ja)) のプロジェクトダッシュボードから確認
+- Service URL: https://llm-service-api-600033825441.asia-east1.run.app
+- [Dashboard](https://console.cloud.google.com/run?hl=ja&inv=1&invt=Abn-qQ&project=llm-service-442200&supportedpurview=project,organizationId,folder)
+
+#### セットアップ
+
+- `gcloud components update` で `gcloud CLI` をアップデート
+- `gcloud auth login` (ログインしていなければ)
+- `gcloud config set project PROJECT_ID`
+  - `PROJECT_ID` は [Google Cloud](<(https://cloud.google.com/?hl=ja)>) のプロジェクトダッシュボードから確認
 - デプロイの実行
-    - `gcloud run deploy`
-        - 質問項目はすべてそのまま Enter or Yes で問題ない
-        - リージョンは `[2] asia-east1`
-        - コンテナのビルドとデプロイが完了し `URL` が払い出されれば OK
+  - `gcloud run deploy`
+    - 質問項目はすべてそのまま Enter or Yes で問題ない
+    - リージョンは `[2] asia-east1`
+    - コンテナのビルドとデプロイが完了し `URL` が払い出されれば OK
+
+## Google Cloud
+
+- [LLM Service (console)](https://console.cloud.google.com/home/dashboard?hl=ja&inv=1&invt=Abn-cg&project=llm-service-442200&supportedpurview=project,organizationId,folder)
 
 ### [Service Account](https://cloud.google.com/iam/docs/service-account-overview?hl=ja)
 
-- サービスアカウントを新規作成
+- サービスアカウントの新規作成
+  - Google Cloud のダッシュボードで「`IAMと管理 > サービスアカウント`」にアクセス
+  - サービスアカウントの作成
     - サービスアカウント名を設定
-    - ロールを `Secret Manager Secret Accessor` に設定
-        - ③ のサービスアカウント自体のアクセス制御はスキップして完了
-    - キー > 鍵を追加 > 新しい鍵を作成 > `JSON`
-        - `JSON` ファイルが自動でダウンロードされるので厳重に保管
-            - GitHub に push されないように注意
+  - ロールを `Secret Manager Secret Accessor` に設定
+    - ③ のサービスアカウント自体のアクセス制御はスキップして完了
+  - キー > 鍵を追加 > 新しい鍵を作成 > `JSON`
+    - `JSON` ファイルが自動でダウンロードされるので厳重に保管
+      - GitHub に push されないように注意
 
 ### [Secret Manager](https://cloud.google.com/secret-manager?hl=ja)
 
 - シークレットの新規作成
-    - 利用するサービスのアクセストークンや `API Key` を登録
-    - 他の設定はそのままで「シークレットを作成」で完了
+  - Google Cloud のダッシュボードで「`セキュリティ > Secret Manager`」にアクセス
+  - シークレットを作成
+  - 利用するサービスのアクセストークンや `API Key` を登録
+  - 他の設定はそのままで「シークレットを作成」で完了
 
 ### [Cloud Run でシークレットを使用](https://cloud.google.com/run/docs/configuring/secrets?hl=ja)
 
@@ -68,21 +79,21 @@
 
 - CloudRun のコンソールを開く
 - 新しいリビジョンの編集とデプロイ
-    - 「セキュリティ」タブ
-        - サービスアカウントを作成したものに変更
-    - 「コンテナ」タブ > コンテナ > 変数とシークレット
-        - 利用するシークレットの `PROJECT_ID`, `SECRET_ID`, `VERSION` を環境変数に登録
-    - 「コンテナ」タブ > コンテナ > ボリュームのマウント
-        - 登録したシークレットを指定
-        - マウントパスは任意のものを指定
+  - 「セキュリティ」タブ
+    - サービスアカウントを作成したものに変更
+  - 「コンテナ」タブ > コンテナ > 変数とシークレット
+    - 利用するシークレットの `PROJECT_ID`, `SECRET_ID`, `VERSION` を環境変数に登録
+  - 「コンテナ」タブ > コンテナ > ボリュームのマウント
+    - 登録したシークレットを指定
+    - マウントパスは任意のものを指定
 - ここまで設定したらアプリからシークレットにアクセスするためのコードを書く
-    - `./src/services/secret_manager.py`
+  - `./src/libs/secret_manager.py`
 
-### アクセスの制御
+#### アクセス制御
 
-Cloud Run が利用するサービスアカウント、シークレット、LLM の API Key　それぞれ権限が設定できるので組み合わせてアクセスを制限する。 
+サービスアカウント、シークレットマネージャ、LLM の API Key それぞれで権限が設定できるので組み合わせてアクセスを制限する。
 
 ## Reference
 
 - [CloudRun & Docker 入門](https://zenn.dev/kenken82/articles/cloudrun-docker-tutorial)
-- [OpenAI APIキーを安全に使用するためのベストプラクティス](https://note.com/komzweb/n/n3392c290d7b8)
+- [OpenAI API キーを安全に使用するためのベストプラクティス](https://note.com/komzweb/n/n3392c290d7b8)
