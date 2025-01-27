@@ -1,6 +1,6 @@
 # LLM Service API
 
-`ChatGPT` や `Gemini` など大規模言語モデルに関連するサービスの API を実行するための Web API
+`ChatGPT` や `Gemini` など大規模言語モデルの `API` を実行するための `Web API`
 
 - `Secret Manager` を利用した安全なアクセス制御
 - `Python` の Web Framework である [FastAPI](https://fastapi.tiangolo.com/ja/) を用いて実装
@@ -9,9 +9,9 @@
 
 ### Local
 
-- `main.py` のある階層（`src/`）で `uvicorn main:app --reload`
+- `main.py` のある階層（`src`）で `uvicorn main:app --reload`
 
-### Docker
+#### Docker
 
 プロジェクトルートに `Dockerfile`, `docker-compose.yml`, `dockerignore`, `requirements.txt` を作成
 
@@ -28,19 +28,13 @@
     - `API Key` の文字列は作成時に一度しか確認できないのですぐに Google の Secret Manager に登録
     - 参考：[Best Practices for API Key Safety](https://help.openai.com/en/articles/5112595-best-practices-for-api-key-safety)
 
-### [Gemini](https://ai.google.dev/aistudio?hl=ja)
+## Deploy
 
-- [Google AI Studio](https://aistudio.google.com/app/prompts/new_chat?pli=1) 
-- [スタートガイド](https://ai.google.dev/gemini-api/docs?hl=ja)
+### [Cloud Run](https://cloud.google.com/run?hl=ja)
 
-## [Google Cloud](https://cloud.google.com/?hl=ja)
+コンテナ化して `Cloud Run` にデプロイする。
 
-- [コンソール](https://console.cloud.google.com/run/detail/asia-east1/llm-service-api/metrics?authuser=1&project=llm-api-429208)
-
-### [Cloud Run](https://cloud.google.com/run?hl=ja) (Deploy)
-
-Service URL: https://llm-service-api-pvkoedoarq-de.a.run.app/chatgpt/test/任意の文字列
-
+- Service URL: https://llm-service-api-pvkoedoarq-de.a.run.app
 - セットアップ
     - `gcloud components update` で `gcloud CLI` をアップデート
     - `gcloud auth login` (ログインしていなければ)
