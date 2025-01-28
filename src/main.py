@@ -22,7 +22,7 @@ async def chatgpt_test():
     res = chatgpt.test()
     return res.content
 
-@app.get("/chatgpt/chat/{text}")
+@app.get("/chatgpt/chat/")
 async def chatgpt_chat(text: str):
     res = chatgpt.chat(text)
     return res.content

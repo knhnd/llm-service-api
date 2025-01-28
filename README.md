@@ -1,20 +1,19 @@
 # LLM Service API
 
-`ChatGPT` や `Gemini` など大規模言語モデルの `API` を実行するための `Web API`
+大規模言語モデルの `API` を実行するための `Web API`
 
-- `Secret Manager` を利用した安全なアクセス制御
 - `Python` の Web Framework である [FastAPI](https://fastapi.tiangolo.com/ja/) を用いて実装
+- `Secret Manager` を利用した安全なアクセス制御
 
-## Server
-
-### Local
+### Local Server
 
 - `main.py` のある階層（`src`）で `uvicorn main:app --reload`
 
-#### Docker
+### Docker
 
-プロジェクトルートに `Dockerfile`, `docker-compose.yml`, `dockerignore`, `requirements.txt` を作成
+プロジェクトルートに `Dockerfile`, `docker-compose.yml`, `dockerignore`, `requirements.txt` を作成。`requirements.txt` のライブラリのバージョンは確認を忘れないようにする。
 
+- `Docker Desktop` アプリを起動
 - `docker-compose build`
 - `docker-compose up -d`
 - `docker-compose stop`
@@ -26,13 +25,13 @@
 - `API Key` の作成
   - 任意の権限を設定
   - `API Key` の文字列は作成時に一度しか確認できないのですぐに Google の Secret Manager に登録
-  - 参考：[Best Practices for API Key Safety](https://help.openai.com/en/articles/5112595-best-practices-for-api-key-safety)
+    - 参考：[Best Practices for API Key Safety](https://help.openai.com/en/articles/5112595-best-practices-for-api-key-safety)
 
 ## Deploy
 
 ### [Cloud Run](https://cloud.google.com/run?hl=ja)
 
-コンテナ化して `Cloud Run` にデプロイする。
+コンテナ化して `Cloud Run` にデプロイ
 
 - Service URL: https://llm-service-api-600033825441.asia-east1.run.app
 - [Dashboard](https://console.cloud.google.com/run?hl=ja&inv=1&invt=Abn-qQ&project=llm-service-442200&supportedpurview=project,organizationId,folder)
@@ -40,7 +39,7 @@
 #### セットアップ
 
 - `gcloud components update` で `gcloud CLI` をアップデート
-- `gcloud auth login` (ログインしていなければ)
+- ログインしていなければ `gcloud auth login`
 - `gcloud config set project PROJECT_ID`
   - `PROJECT_ID` は [Google Cloud](<(https://cloud.google.com/?hl=ja)>) のプロジェクトダッシュボードから確認
 - デプロイの実行
@@ -51,7 +50,12 @@
 
 ## Google Cloud
 
-- [LLM Service (console)](https://console.cloud.google.com/home/dashboard?hl=ja&inv=1&invt=Abn-cg&project=llm-service-442200&supportedpurview=project,organizationId,folder)
+- [コンソール (LLM Service)](https://console.cloud.google.com/home/dashboard?hl=ja&inv=1&invt=Abn-cg&project=llm-service-442200&supportedpurview=project,organizationId,folder)
+
+1. Cloud Run にデプロイしたアプリを実行するための「サービスアカウント」を作成
+2. OpenAI API などの API Key は Secret Manager に保存
+3. Cloud Run の環境変数にサービスアカウントを作成したプロジェクトIDとシークレットのID(openai-api-keyなど)を設定
+4. エンドポイントにリクエストしてアプリが実行され LLM の機能を実行し、レスポンスが返ってくるかを確認
 
 ### [Service Account](https://cloud.google.com/iam/docs/service-account-overview?hl=ja)
 

@@ -1,9 +1,9 @@
-import openai
+from openai import OpenAI
 from . import secret_manager
 
 def initialize_openai_client():
     OPENAI_API_KEY = secret_manager.get_openai_secret()
-    openai_client = openai(api_key=OPENAI_API_KEY)
+    openai_client = OpenAI(api_key=OPENAI_API_KEY)
     return openai_client
 
 def test():

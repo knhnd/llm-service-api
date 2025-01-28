@@ -1,14 +1,13 @@
 import os
-from dotenv import load_dotenv
 from google.cloud import secretmanager
 
 def get_openai_secret():
-    # 環境変数の取得
+    # 環境変数の読み込み
     PROJECT_ID = os.environ["PROJECT_ID"]
-    SECRET_ID = os.environ["SECRET_ID"]
+    SECRET_ID = os.environ["SECRET"]
     VERSION = os.environ["VERSION"]
 
-    # シークレット（API Key）の取得
+    # シークレットマネージャから API Key を取得
     client = secretmanager.SecretManagerServiceClient()
     path = client.secret_version_path(PROJECT_ID, SECRET_ID, VERSION)
     response = client.access_secret_version(name=path)
